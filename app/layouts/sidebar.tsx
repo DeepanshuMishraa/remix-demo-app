@@ -1,4 +1,4 @@
-import { Form, Link, Outlet } from "react-router";
+import { Form, Link, NavLink, Outlet, useNavigation } from "react-router";
 import { getContacts } from "../data";
 import type { Route } from "./+types/sidebar";
 
@@ -11,10 +11,15 @@ export async function loader() {
 
 // clientLoader() when performing client-side navigation, the clientLoader function is called to fetch data before rendering the route component. For more information, see https://reactrouter.com/explanation/client-loader
 
+
 export default function SidebarLayout({
   loaderData,
 }: Route.ComponentProps) {
   const { contacts } = loaderData;
+
+  const navigation = useNavigation();
+
+
 
   return (
     <>
@@ -46,7 +51,8 @@ export default function SidebarLayout({
             <ul>
               {contacts.map((contact) => (
                 <li key={contact.id}>
-                  <Link to={`contacts/${contact.id}`}>
+                  <NavLink className={({ isActive, isPending }) => isActive ? "active" : isPending ?
+                    "pending" : ""} to={`contacts/${contact.id}`}>
                     {contact.first || contact.last ? (
                       <>
                         {contact.first} {contact.last}
@@ -57,7 +63,7 @@ export default function SidebarLayout({
                     {contact.favorite ? (
                       <span>★</span>
                     ) : null}
-                  </Link>
+                  </NavLink>
                 </li>
               ))}
             </ul>
@@ -68,7 +74,7 @@ export default function SidebarLayout({
           )}
         </nav>
       </div>
-      <div id="detail">
+      <div id="detail" className={navigation.state === "loading" ? "loading" : ""}>
         <Outlet />
       </div>
     </>
