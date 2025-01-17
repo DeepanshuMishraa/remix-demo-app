@@ -1,5 +1,7 @@
 import {
   Form,
+  Link,
+  Outlet,
   Scripts,
   ScrollRestoration,
   isRouteErrorResponse,
@@ -8,40 +10,26 @@ import type { Route } from "./+types/root";
 
 import appStylesHref from "./app.css?url";
 
+
+
 export default function App() {
-  return (
-    <>
-      <div id="sidebar">
-        <h1>React Router Contacts</h1>
-        <div>
-          <Form id="search-form" role="search">
-            <input
-              aria-label="Search contacts"
-              id="q"
-              name="q"
-              placeholder="Search"
-              type="search"
-            />
-            <div aria-hidden hidden={true} id="search-spinner" />
-          </Form>
-          <Form method="post">
-            <button type="submit">New</button>
-          </Form>
-        </div>
-        <nav>
-          <ul>
-            <li>
-              <a href={`/contacts/1`}>Your Name</a>
-            </li>
-            <li>
-              <a href={`/contacts/2`}>Your Friend</a>
-            </li>
-          </ul>
-        </nav>
-      </div>
-    </>
-  );
+  return <Outlet />;
 }
+
+
+
+
+
+
+export function HydrateFallback() {
+  return (
+    <div id="loading-splash">
+      <div id="loading-splash-spinner" />
+      <p>Loading,Please wait .....</p>
+
+    </div>
+  )
+} // The HydrateFallback component is a special export for the root route. It acts as a loading state for the root route component. For more information, see https://reactrouter.com/explanation/special-files#hydratefallback-export
 
 // The Layout component is a special export for the root route.
 // It acts as your document's "app shell" for all route components, HydrateFallback, and ErrorBoundary
