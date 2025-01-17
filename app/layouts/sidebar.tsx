@@ -2,10 +2,14 @@ import { Form, Link, Outlet } from "react-router";
 import { getContacts } from "../data";
 import type { Route } from "./+types/sidebar";
 
-export async function clientLoader() {
+export async function loader() {
   const contacts = await getContacts();
   return { contacts };
 }
+
+// loader() when performing server-side rendering, the loader function is called to fetch data before rendering the route component. For more information, see https://reactrouter.com/explanation/loader
+
+// clientLoader() when performing client-side navigation, the clientLoader function is called to fetch data before rendering the route component. For more information, see https://reactrouter.com/explanation/client-loader
 
 export default function SidebarLayout({
   loaderData,
